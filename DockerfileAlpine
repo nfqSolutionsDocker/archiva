@@ -1,0 +1,21 @@
+FROM alpine:3.4
+
+MAINTAINER solutions@nfq.es
+
+RUN apk update && \
+    apk add --no-cache curl \
+    ca-certificates \
+    openjdk7-jre
+
+ENV TOMCAT_VERSION=7.0.67
+
+# SET CATALINE_HOME and PATH
+ENV JAVA_HOME=/usr/lib/jvm/java-1.7-openjdk/
+
+COPY archiva-resources/apache-archiva /archiva
+
+EXPOSE 8080
+
+VOLUME /usr/tomcat/archiva/
+
+CMD ["sh", "archiva/apache-archiva/bin/archiva"]

@@ -1,21 +1,22 @@
-FROM alpine:3.4
+FROM centos:7
 
 MAINTAINER solutions@nfq.es
 
-RUN apk update && \
-    apk add --no-cache curl \
-    ca-certificates \
-    openjdk7-jre
+RUN yum install -y java-1.8.0-openjdk.x86_64
 
-ENV TOMCAT_VERSION=7.0.67
-
-# SET CATALINE_HOME and PATH
-ENV JAVA_HOME=/usr/lib/jvm/java-1.7-openjdk/
+ENV JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk \
+    ARCHIVA_HOME=/archiva \
+    PATH=$PATH:$ARCHIVA_HOME/bin:$JAVA_HOME/bin
 
 COPY archiva-resources/apache-archiva /archiva
+RUN mkdir -p /archiva/repositories && \
+    mkdir -p /archiva/logs \
+    mkdir -p /archiva/tmp
+RUN chmod -R 777 /archiva
 
-EXPOSE 8080
+EXPOSE 8085
 
 VOLUME /usr/tomcat/archiva/
 
-CMD ["/bin/sh"]
+#CMD ["/bin/bash"]
+CMD ["/archiva/bin/archiva", "console"]
