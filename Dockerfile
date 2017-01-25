@@ -23,7 +23,7 @@ RUN chmod 777 /solutions/archiva.sh && \
 VOLUME /solutions/app
 
 # Puerto de salida del docker
-EXPOSE 8085
+EXPOSE 8080
 
 # Configuracion supervisor
 COPY supervisord.conf /etc/supervisord.conf
