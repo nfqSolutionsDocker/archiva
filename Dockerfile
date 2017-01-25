@@ -1,26 +1,31 @@
-FROM centos:7
+FROM nfqsolutions/centos:7
 
-MAINTAINER solutions@nfq.es
+MAINTAINER solutions@nfq.com
 
-RUN yum install -y java-1.8.0-openjdk.x86_64
+# Instalacion previa
+RUN sudo yum install -y wget
 
-ENV JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk \
-    ARCHIVA_HOME=/archiva \
-    PATH=$PATH:$ARCHIVA_HOME/bin:$JAVA_HOME/bin
+# Variables de entorno
+ENV JAVA_HOME=/solutions/app/java \
+	JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
+	ARCHIVA_HOME=/solutions/app/archiva \
+	JAVA_VERSION=8u92 \
+	ARCHIVA_VERSION=2.2.0
+ENV PATH=$PATH:$JAVA_HOME/bin:$ARCHIVA_HOME/bin
 
-RUN echo "export ARCHIVA_HOME=/archiva" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$ARCHIVA_HOME/bin" >> ~/.bashrc
+# Script de arranque
+COPY tomcat.sh /solutions/
+RUN chmod 777 /solutions/archiva.sh && \
+	chmod a+x /solutions/archiva.sh && \
+	sed -i -e 's/\r$//' /solutions/archiva.sh
+	
+# Volumenes para el docker
+VOLUME /solutions/app
 
-COPY archiva-resources/apache-archiva-2.2.0 /archiva
-RUN mkdir -p /archiva/repositories && \
-    mkdir -p /archiva/logs && \
-    mkdir -p /archiva/temp && \
-    mkdir -p /archiva/repositories
-RUN chmod -R 777 /archiva
-
+# Puerto de salida del docker
 EXPOSE 8085
 
-VOLUME /archiva/repositories
+# Configuracion supervisor
+COPY supervisord.conf /etc/supervisord.conf
 
-#CMD ["/bin/bash"]
-CMD ["/archiva/bin/archiva", "console"]
+CMD ["/usr/bin/supervisord"]
