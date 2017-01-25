@@ -14,7 +14,7 @@ ENV JAVA_HOME=/solutions/app/java \
 ENV PATH=$PATH:$JAVA_HOME/bin:$ARCHIVA_HOME/bin
 
 # Script de arranque
-COPY tomcat.sh /solutions/
+COPY archiva.sh /solutions/
 RUN chmod 777 /solutions/archiva.sh && \
 	chmod a+x /solutions/archiva.sh && \
 	sed -i -e 's/\r$//' /solutions/archiva.sh
