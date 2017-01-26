@@ -13,7 +13,7 @@ app:
  restart: always
  container_name: archiva-2.2.0
  ports:
-  - "8080:8085"
+  - "8080:8080"
  environment:
   - PACKAGES=
  volumes:
