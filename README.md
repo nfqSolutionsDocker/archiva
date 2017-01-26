@@ -1,4 +1,4 @@
-### archiva
+# Archiva 2.2.0
 
 This container has the following characteristics:
 - Container nfqsolutions/centos:7.
@@ -20,6 +20,11 @@ app:
   - <mydirectory>:/solutions/app
  
 ```
+
+
+### Note
+
+If you have a repositories folder backup, you can put into volumen folder in the path <mydirectory>/archiva/
 
 
 ### License
