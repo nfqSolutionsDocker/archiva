@@ -3,7 +3,7 @@
 This container has the following characteristics:
 - Container nfqsolutions/centos:7.
 - The java directory is /solutions/app/java.
-- The tomcat directory is /solutions/app/tomcat.
+- The archiva directory is /solutions/app/archiva.
 - Installations script of archiva in centos. This script is executing in the next containers or in the docker compose.
 
 For example, docker-compose.yml:
