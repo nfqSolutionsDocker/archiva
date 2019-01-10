@@ -1,30 +1,26 @@
 # Archiva 2.2.0
 
 This container has the following characteristics:
-- Container nfqsolutions/centos:7.
-- The java directory is /solutions/app/java.
-- The archiva directory is /solutions/app/archiva.
-- Installations script of archiva in centos. This script is executing in the next containers or in the docker compose.
+- Container centos:7.
+- The archiva directory is /archiva.
 
 For example, docker-compose.yml:
 ```
 app:
  image: nfqsolutions/archiva:2.2.0-jdk8
  restart: always
- container_name: archiva-2.2.0
+ container_name: archiva
  ports:
-  - "8080:8080"
- environment:
-  - PACKAGES=
+  - "8085:8080"
  volumes:
-  - <mydirectory>:/solutions/app
+  - <mydirectory>:/archiva
  
 ```
 
 
 ### Note
 
-If you have a repositories folder backup, you can put into volumen folder in the path <mydirectory>/archiva/
+If you have a repositories folder backup, you can put into volumen folder in the path <mydirectory>/
 
 
 ### License

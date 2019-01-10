@@ -1,31 +1,31 @@
-FROM nfqsolutions/centos:7
+FROM centos:7
 
 MAINTAINER solutions@nfq.com
 
 # Instalacion previa
-RUN sudo yum install -y wget
+RUN yum update
+RUN yum -y install wget
+
+# Instalacion java
+RUN yum -y install java-1.8.0-openjdk
+
+# Instalacion archiva
+RUN wget -P / "http://archive.apache.org/dist/archiva/2.2.0/binaries/apache-archiva-2.2.0-bin.tar.gz"
+
+RUN tar -xvzf /apache-archiva-2.2.0-bin.tar.gz -C /
+RUN chmod -R 777 $(ls -d /apache-archiva*/)
+RUN mv $(ls -d /apache-archiva*/) /archiva
+RUN mkdir -p /archiva/repositories
 
 # Variables de entorno
-ENV JAVA_HOME=/solutions/app/java \
-	JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
-	ARCHIVA_HOME=/solutions/app/archiva \
-	JAVA_VERSION=8u92 \
+ENV JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8 \
+	ARCHIVA_HOME=/archiva \
 	ARCHIVA_VERSION=2.2.0
-ENV PATH=$PATH:$JAVA_HOME/bin:$ARCHIVA_HOME/bin
-
-# Script de arranque
-COPY archiva.sh /solutions/
-RUN chmod 777 /solutions/archiva.sh && \
-	chmod a+x /solutions/archiva.sh && \
-	sed -i -e 's/\r$//' /solutions/archiva.sh
 	
 # Volumenes para el docker
-VOLUME /solutions/app
+VOLUME /archiva
 
 # Puerto de salida del docker
 EXPOSE 8080
 
-# Configuracion supervisor
-COPY supervisord.conf /etc/supervisord.conf
-
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT ["/archiva/bin/archiva", "console"]
