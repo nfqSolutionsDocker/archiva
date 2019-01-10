@@ -2,7 +2,6 @@
 
 This container has the following characteristics:
 - Container centos:7.
-- The archiva directory is /archiva.
 
 For example, docker-compose.yml:
 ```
@@ -13,14 +12,14 @@ app:
  ports:
   - "8085:8080"
  volumes:
-  - <mydirectory>:/archiva
+  - ./volumes/repositories:/archiva/repositories
  
 ```
 
 
 ### Note
 
-If you have a repositories folder backup, you can put into volumen folder in the path <mydirectory>/
+If you have a repositories folder backup, you can put into volumen folder in the path ./volumes/repositories/
 
 
 ### License
